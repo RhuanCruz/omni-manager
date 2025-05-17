@@ -1,4 +1,5 @@
-"use client";
+'use client'
+import { Copy } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,39 +15,44 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { use, useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
-import { createProject } from "@/app/utils/api/project";
 
-export function DialogNewProject() {
+export function DialogNewProjectTask() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const router = useRouter();
-  const [feedback, setFeedback] = useState('');
+
 
   const handleSaveNewProject = async () => {
     const newProject = {
       name: name,
       description: description,
     };
-    const data = await createProject(newProject)
+    // const { data, error } = await supabase
+    //   .from("projects")
+    //   .insert([{ newProject }])
+    //   .select();
 
-    if (!data.ok) {
-      setFeedback('Erro Ao criar')
-    }  
+    //   if (error) {
+    //    return <div>Erro ao criar</div>
+    //   }
+
+    //   useCallback(() => {
+    //     setName("");
+    //     setDescription("");
+    //   }, []);
+    //   return data;
     console.log(newProject);
-    router.refresh();
-    setDescription("");
-    setName("");
+    setDescription('');
+    setName('');
   };
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default">New Project</Button>
+        <Button variant="default">New Task</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>New Project</DialogTitle>
+          <DialogTitle>New Task</DialogTitle>
           <DialogDescription>
             Anyone who has this link will be able to view this.
           </DialogDescription>
@@ -54,11 +60,11 @@ export function DialogNewProject() {
         <div className="flex items-center space-x-2">
           <div className="grid flex-1 gap-2">
             <Label htmlFor="link" className="sr-only">
-              Name
+              Title
             </Label>
             <Input
               id="name"
-              placeholder="Project Name"
+              placeholder="Task title"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -68,31 +74,33 @@ export function DialogNewProject() {
             </Label>
             <Input
               id="description"
-              placeholder="Project Description"
+              placeholder="Task Description"
               required
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              size={120
+              
+              }
             />
           </div>
         </div>
-        {feedback && <div>{feedback}</div>}
         <DialogFooter className="sm:justify-between">
           <DialogClose asChild>
             <Button type="button" variant="secondary">
               Close
             </Button>
           </DialogClose>
-
+          
           <DialogClose asChild>
             <Button
-              type="button"
-              variant="default"
-              onClick={() => {
-                handleSaveNewProject();
-              }}
-            >
-              Save
-            </Button>
+            type="button"
+            variant="default"
+            onClick={() => {
+              handleSaveNewProject()
+            }}
+          >
+            Save
+          </Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>

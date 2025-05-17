@@ -10,17 +10,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { use } from "react";
+import { ListProjects, Project } from "@/app/types/project";
+import { ChevronRight, SquarePen  } from "lucide-react";
+import { DialogEditProject } from "./DialogEditProject";
+import { projectNew } from "next/dist/build/swc/generated-native";
+import { ListTasks, Task } from "@/app/types/task";
 
-interface Project {
-  id: string | number;
-  name: string;
-  description: string;
-  created_at: Date;
-  // Add other fields if needed
-}
-
-export function TableProjects({ projects }: any) {
+export function TableProjectTask({ tasks }: ListTasks) {
   return (
     <div className="min-w-full rounded-lg overflow-hidden shadow-md ">
       <Table>
@@ -32,30 +28,34 @@ export function TableProjects({ projects }: any) {
             </TableHead>
             <TableHead className="max-w-[200px]">Description</TableHead>
             <TableHead>Created At</TableHead>
-            <TableHead>Details</TableHead>
+            <TableHead>Edit</TableHead>
+            <TableHead></TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody >
-          {projects?.map((project: Project) => (
-            <TableRow key={project.id}>
-              <TableCell className="font-medium">{project.name}</TableCell>
+        <TableBody>
+          {tasks?.map((task: Task) => (
+            <TableRow key={task.id}>
+              <TableCell className="font-medium">{task.titulo}</TableCell>
               <TableCell className="max-w-2xl overflow-clip">
-                {project.description}
+                {task.descricao}
               </TableCell>
               <TableCell>
-                {project.created_at
-                  ? new Date(project.created_at).toLocaleDateString("pt-BR", {
+                {task.criado_em
+                  ? new Date(task.criado_em).toLocaleDateString("pt-BR", {
                       day: "2-digit",
                       month: "2-digit",
                     })
                   : "Data inválida"}
               </TableCell>
               <TableCell>
+                <DialogEditProject project={task}></DialogEditProject>
+              </TableCell>
+              <TableCell>
                 <Link
-                  href={`projects/${project.id}`}
+                  href={`projects/${task.id}`}
                   className="text-primary border-b-1 hover:border-primary transition-all delay-75"
                 >
-                  See Details
+                  <ChevronRight />
                 </Link>
               </TableCell>
             </TableRow>

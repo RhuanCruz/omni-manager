@@ -1,3 +1,5 @@
+'use client'
+
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
 
 import {
@@ -10,6 +12,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import path from "path"
+import { usePathname } from "next/navigation"
 
 // Menu items.
 const items = [
@@ -26,6 +30,11 @@ const items = [
 ]
 
 export function AppSidebar() {
+
+  const page = usePathname()
+
+
+  
   return (
     <Sidebar>
       <SidebarContent>

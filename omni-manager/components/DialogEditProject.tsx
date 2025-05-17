@@ -13,40 +13,54 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { use, useCallback, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createProject } from "@/app/utils/api/project";
+import { SquarePen } from "lucide-react";
+import { Project } from "@/app/types/project";
+import { createProject, updateProject } from "@/app/utils/api/project";
 
-export function DialogNewProject() {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+export function DialogEditProject({ project }: { project: Project }) {
+   const [open, setOpen] = useState(false);
+  const [name, setName] = useState(project.name);
+  const [description, setDescription] = useState(project.description);
+  
   const router = useRouter();
   const [feedback, setFeedback] = useState('');
 
-  const handleSaveNewProject = async () => {
-    const newProject = {
+  useEffect(() => {
+    if(open) {
+      setName(project.name)
+      setDescription(project.description)
+    }
+  }, [open, project]);
+
+  const handleEditProject = async () => {
+    const Project = {
+      id: project.id,
       name: name,
       description: description,
     };
-    const data = await createProject(newProject)
+    const data = await updateProject(Project)
 
-    if (!data.ok) {
-      setFeedback('Erro Ao criar')
-    }  
-    console.log(newProject);
+    if (data.status != 200) {
+      setFeedback('Erro ao editar')
+    }
+    
+    console.log(Project);
     router.refresh();
     setDescription("");
     setName("");
   };
 
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default">New Project</Button>
+        <SquarePen className="h-4"></SquarePen >
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>New Project</DialogTitle>
+          <DialogTitle>Update Project</DialogTitle>
           <DialogDescription>
             Anyone who has this link will be able to view this.
           </DialogDescription>
@@ -88,7 +102,7 @@ export function DialogNewProject() {
               type="button"
               variant="default"
               onClick={() => {
-                handleSaveNewProject();
+                handleEditProject();
               }}
             >
               Save
