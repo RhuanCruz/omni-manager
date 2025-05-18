@@ -26,20 +26,7 @@ export function DialogNewProjectTask() {
       name: name,
       description: description,
     };
-    // const { data, error } = await supabase
-    //   .from("projects")
-    //   .insert([{ newProject }])
-    //   .select();
-
-    //   if (error) {
-    //    return <div>Erro ao criar</div>
-    //   }
-
-    //   useCallback(() => {
-    //     setName("");
-    //     setDescription("");
-    //   }, []);
-    //   return data;
+    
     console.log(newProject);
     setDescription('');
     setName('');

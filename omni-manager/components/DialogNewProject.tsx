@@ -13,11 +13,12 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { use, useCallback, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createProject } from "@/app/utils/api/project";
+import { createProject, fetchProjects } from "@/app/utils/api/project";
 
-export function DialogNewProject() {
+
+export function DialogNewProject({ onProjectCreated }: { onProjectCreated: () => void}) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const router = useRouter();
@@ -28,13 +29,11 @@ export function DialogNewProject() {
       name: name,
       description: description,
     };
-    const data = await createProject(newProject)
+    await createProject(newProject)
+    
+    console.log('Refresh')
+    if (onProjectCreated) onProjectCreated();
 
-    if (!data.ok) {
-      setFeedback('Erro Ao criar')
-    }  
-    console.log(newProject);
-    router.refresh();
     setDescription("");
     setName("");
   };

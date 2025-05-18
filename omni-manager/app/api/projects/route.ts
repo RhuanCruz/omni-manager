@@ -5,8 +5,14 @@ import { createClient } from '@/lib/supabase';
 
 
 export async function GET(request: NextRequest) {
-    console.log("Request to create a new project");
-    return NextResponse.json({ message: "Request to create a new project" });
+   const supabase = createClient()
+   const {data, error} = await (await supabase).from('projects').select('*')
+   
+   if(error) {
+        console.error("Error read project:", error);
+        return NextResponse.json({ error: "Error read projects" }, { status: 500 });
+   }
+    return NextResponse.json({ projects : data });
 }
 
 

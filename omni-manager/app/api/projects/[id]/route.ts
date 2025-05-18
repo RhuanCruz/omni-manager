@@ -31,3 +31,16 @@ export async function PUT(request: NextRequest, { params }: { params :{id: strin
     return NextResponse.json({ message: "Request to update a project" , status: 200});
 
 }
+
+export async function DELETE(request : NextRequest, {params}: { params : { id : string}}) {
+   const { id } = await params;
+    const supabase = createClient();
+
+    const {data , error} = await (await supabase).from('projects').delete().eq('id', id)
+
+    if(error) {
+        return NextResponse.json({ error: "Error delete project" }, { status: 500 });
+    }
+
+    return NextResponse.json({ message: "Request to delete a project" , status: 200});
+}
