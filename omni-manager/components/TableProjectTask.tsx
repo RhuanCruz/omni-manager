@@ -13,10 +13,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 
 import Link from "next/link";
-import { ListProjects, Project } from "@/app/types/project";
-import { ChevronRight, SquarePen } from "lucide-react";
-import { DialogEditProject } from "./DialogEditProject";
-import { projectNew } from "next/dist/build/swc/generated-native";
+import { ChevronRight } from "lucide-react";
 import { ListTasks, Task } from "@/app/types/task";
 
 export function TableProjectTask({ tasks }: ListTasks) {

@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase";
 import { Project } from "@/app/types/project";
 import { TableProjectTask } from "@/components/TableProjectTask";
 import { DialogDeleteProject } from "@/components/DialogDeleteProject";
+import { DatePicker } from "@/components/DatePicker";
 
 export default async function ProjectPage({
   params,
